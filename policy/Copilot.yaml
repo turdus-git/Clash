@@ -1,0 +1,27 @@
+# NAME: Copilot
+payload:
+  # Copilot 核心域名
+  - DOMAIN,copilot.microsoft.com
+  - DOMAIN,sydney.bing.com
+  - DOMAIN,www.bing.com
+  - DOMAIN-SUFFIX,copilot.microsoft.com
+  - DOMAIN-SUFFIX,sydney.bing.com
+  
+  # Bing 服务域名
+  - DOMAIN,api.bing.com
+  - DOMAIN,api.msn.com
+  - DOMAIN,r.bing.com
+  - DOMAIN,services.bingapis.com
+  - DOMAIN,gateway.bingviz.microsoft.net
+  - DOMAIN,gateway.bingviz.microsoftapp.net
+  - DOMAIN-SUFFIX,edgeservices.bing.com
+  - DOMAIN-SUFFIX,api.microsoftapp.net
+  - DOMAIN-SUFFIX,bing-shopping.microsoft-falcon.io
+  
+  # Microsoft 基础服务
+  - DOMAIN,location.microsoft.com
+  - DOMAIN,odc.officeapps.live.com
+  - DOMAIN,in.appcenter.ms
+  - DOMAIN,self.events.data.microsoft.com
+  
+  # 删除所有 openai.com、chatgpt.com、oaistatic.com 等域名
