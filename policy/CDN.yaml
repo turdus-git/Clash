@@ -1,0 +1,27 @@
+payload:
+  # ========== CDN 服务（必须代理）==========
+  - DOMAIN-SUFFIX,akamai.net
+  - DOMAIN-SUFFIX,akamaized.net
+  - DOMAIN-SUFFIX,akamaihd.net
+  - DOMAIN-SUFFIX,fastly.net
+  - DOMAIN-SUFFIX,cdnjs.com
+  - DOMAIN-SUFFIX,jsdelivr.net
+  - DOMAIN-SUFFIX,unpkg.com
+  - DOMAIN-SUFFIX,bootstrapcdn.com
+  - DOMAIN-SUFFIX,stackpathcdn.com
+  - DOMAIN-SUFFIX,cloudfront.net
+  - DOMAIN-SUFFIX,s3.amazonaws.com
+
+  # ========== 身份验证（重要）==========
+  - DOMAIN-SUFFIX,auth0.com
+
+  # ========== 开发工具（有用）==========
+  - DOMAIN-SUFFIX,sentry.io
+  - DOMAIN-SUFFIX,segment.io
+
+  # ========== 评论/社交（国外服务）==========
+  - DOMAIN-SUFFIX,disqus.com
+
+  # ========== 支付/字体（必须代理）==========
+  - DOMAIN-SUFFIX,stripe.com
+  - DOMAIN-SUFFIX,typekit.net
