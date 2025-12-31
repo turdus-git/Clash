@@ -1,0 +1,23 @@
+# NAME: MetaAI
+# AUTHOR: Your Name
+# UPDATED: 2025-12-30
+
+payload:
+  # Meta AI 核心服务
+  - DOMAIN-SUFFIX,meta.ai
+  - DOMAIN-SUFFIX,llama.com
+  - DOMAIN-SUFFIX,llama-api.com
+  - DOMAIN-SUFFIX,llama.meta.com
+  
+  # Meta 统一身份验证与账号中心
+  - DOMAIN-SUFFIX,auth.meta.com
+  - DOMAIN-SUFFIX,work.meta.com
+  - DOMAIN-SUFFIX,accountscenter.meta.com
+  
+  # Meta 基础设施 (API/CDN)
+  - DOMAIN-SUFFIX,graph.meta.com
+  - DOMAIN-SUFFIX,edge-chat.meta.ai
+  - DOMAIN-SUFFIX,scontent.xx.fbcdn.net
+  - DOMAIN-SUFFIX,static.xx.fbcdn.net
+  
+  # 注意：threads.com 已删除，由 Threads 规则集处理
