@@ -1,23 +1,27 @@
 # NAME: MetaAI
 # AUTHOR: Your Name
-# UPDATED: 2025-12-30
+# UPDATED: 2025-12-31
 
 payload:
-  # Meta AI 核心服务
+  # Meta AI 核心服务 (Llama 3/4)
   - DOMAIN-SUFFIX,meta.ai
   - DOMAIN-SUFFIX,llama.com
   - DOMAIN-SUFFIX,llama-api.com
   - DOMAIN-SUFFIX,llama.meta.com
   
-  # Meta 统一身份验证与账号中心
+  # Meta 统一身份验证与账号中心 (保号核心)
   - DOMAIN-SUFFIX,auth.meta.com
   - DOMAIN-SUFFIX,work.meta.com
   - DOMAIN-SUFFIX,accountscenter.meta.com
   
-  # Meta 基础设施 (API/CDN)
+  # Meta 基础设施与生图功能
   - DOMAIN-SUFFIX,graph.meta.com
   - DOMAIN-SUFFIX,edge-chat.meta.ai
+  - DOMAIN,imagine.static.meta.ai
+  
+  # 2025 Threads 迁移补丁 (防止滑向香港兜底)
+  - DOMAIN-SUFFIX,threads.com
+
+  # 基础资源 (确保 AI 图片显示)
   - DOMAIN-SUFFIX,scontent.xx.fbcdn.net
   - DOMAIN-SUFFIX,static.xx.fbcdn.net
-  
-  # 注意：threads.com 已删除，由 Threads 规则集处理
