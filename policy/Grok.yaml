@@ -1,4 +1,4 @@
-# NAME: Grok (xAI) - 2026 加固版
+# NAME: Grok (xAI) - 2026 最终加固版
 payload:
   # === 品牌关键词拦截 (最高优先级) ===
   - DOMAIN-KEYWORD,xai
