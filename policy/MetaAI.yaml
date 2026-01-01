@@ -1,6 +1,12 @@
-# NAME: MetaAI (2026 最终加固版)
+# NAME: MetaAI - 2026 终极全自动加固版
 payload:
-  # === Meta AI & Llama ===
+  # === 第一道防线：品牌关键词拦截 (保命核心) ===
+  - DOMAIN-KEYWORD,meta
+  - DOMAIN-KEYWORD,facebook
+  - DOMAIN-KEYWORD,instagram
+  - DOMAIN-KEYWORD,threads
+
+  # === 第二道防线：Meta AI 核心域名 ===
   - DOMAIN-SUFFIX,meta.ai
   - DOMAIN-SUFFIX,llama.com
   - DOMAIN-SUFFIX,llama-api.com
@@ -8,16 +14,16 @@ payload:
   - DOMAIN-SUFFIX,auth.meta.com
   - DOMAIN-SUFFIX,accountscenter.meta.com
 
-  # === Threads 强力拦截 (专治香港侧漏) ===
+  # === 第三道防线：Threads & 基础设施补丁 ===
   - DOMAIN-SUFFIX,threads.com
   - DOMAIN-SUFFIX,threads.net
-  - DOMAIN-KEYWORD,threads
   - DOMAIN-SUFFIX,barcelona.net
-
-  # === 基础设施与 CDN (确保图片加载) ===
+  - DOMAIN-SUFFIX,fbcdn.net
   - DOMAIN-SUFFIX,graph.meta.com
   - DOMAIN-SUFFIX,edge-chat.meta.ai
+
+  # === 第四道防线：特定 API 与 资源探测 ===
   - DOMAIN,api.meta.ai
   - DOMAIN,imagine.static.meta.ai
-  - DOMAIN-SUFFIX,fbcdn.net
   - DOMAIN-SUFFIX,static.xx.fbcdn.net
+  - DOMAIN-SUFFIX,scontent.xx.fbcdn.net
