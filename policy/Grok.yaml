@@ -1,20 +1,14 @@
-# NAME: Grok (xAI)
-# AUTHOR: 指挥官自定义
-# UPDATED: 2026-01-01
-# DESCRIPTION: 针对 xAI 及其核心 AI 平台 Grok 的无泄漏分流规则
-
+# NAME: Grok (xAI) - 2026 加固版
 payload:
-  # === Grok 2026 主站 (最高优先级) ===
+  # === 品牌关键词拦截 (最高优先级) ===
+  - DOMAIN-KEYWORD,xai
+  - DOMAIN-KEYWORD,grok
+  
+  # === 核心域名 (Suffix) ===
   - DOMAIN-SUFFIX,grok.com
   - DOMAIN-SUFFIX,grok.ai
-  - DOMAIN-SUFFIX,grokcdn.com
-
-  # === xAI 公司核心域名 ===
   - DOMAIN-SUFFIX,xai.com
   - DOMAIN-SUFFIX,x.ai
-
-  # === 流式数据与 CDN 补丁 (防止回答卡顿) ===
+  - DOMAIN-SUFFIX,grokcdn.com
   - DOMAIN-SUFFIX,xai-stream.com
   - DOMAIN-SUFFIX,xai-site.azureedge.net
-  - DOMAIN-SUFFIX,static.xai.com
-  - DOMAIN-SUFFIX,assets.xai.com
