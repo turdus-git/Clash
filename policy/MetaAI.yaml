@@ -1,28 +1,37 @@
-# NAME: MetaAI - 2026 终极全自动加固版 (修正 Windows 侧漏)
+# NAME: MetaAI - 2026 终极工业级补丁 (彻底解决 Threads 报错)
 payload:
-  # === 1. 品牌关键词拦截 (最强捕鱼网) ===
+  # === 1. 影子骨干网 (Shadow Infrastructure) - 优先拦截 ===
+  - DOMAIN-SUFFIX,tfbnw.net      # 命脉：Facebook 全球骨干网
+  - DOMAIN-SUFFIX,internalfb.com # 内部验证
+  - DOMAIN-SUFFIX,fna.fbcdn.net  # 快速网络接入端点
+  - DOMAIN-SUFFIX,fb.com
+  - DOMAIN-SUFFIX,fb.me
+  - DOMAIN-SUFFIX,ig.me
+
+  # === 2. 品牌全自动拦截网 (天网) ===
   - DOMAIN-KEYWORD,meta
   - DOMAIN-KEYWORD,facebook
   - DOMAIN-KEYWORD,instagram
   - DOMAIN-KEYWORD,threads
-  - DOMAIN-KEYWORD,fbcdn      # 很多图片资源不带 facebook，只带 fbcdn
-  - DOMAIN-KEYWORD,fbsbx      # 核心静态资源补丁
-  - DOMAIN-KEYWORD,oculus     # 某些底层授权域名
+  - DOMAIN-KEYWORD,fbcdn
+  - DOMAIN-KEYWORD,fbsbx
+  - DOMAIN-KEYWORD,oculus
 
-  # === 2. 核心域名后缀 (Suffix) ===
+  # === 3. Meta AI & Llama 专用 ===
   - DOMAIN-SUFFIX,meta.ai
   - DOMAIN-SUFFIX,llama.com
   - DOMAIN-SUFFIX,llama-api.com
+  - DOMAIN-SUFFIX,llama.meta.com
   - DOMAIN-SUFFIX,auth.meta.com
   - DOMAIN-SUFFIX,accountscenter.meta.com
-  - DOMAIN-SUFFIX,fb.com      # 补齐 fb.com 短域名
-  - DOMAIN-SUFFIX,fb.me
-  - DOMAIN-SUFFIX,ig.me
-  - DOMAIN-SUFFIX,threads.net
-  - DOMAIN-SUFFIX,threads.com
-  - DOMAIN-SUFFIX,barcelona.net
 
-  # === 3. 基础设施与 CDN ===
+  # === 4. Threads 特效补丁 ===
+  - DOMAIN-SUFFIX,threads.com
+  - DOMAIN-SUFFIX,threads.net
+  - DOMAIN-SUFFIX,barcelona.net
+  - DOMAIN-SUFFIX,cdninstagram.com
+
+  # === 5. API 与 静态资源 ===
   - DOMAIN-SUFFIX,graph.meta.com
   - DOMAIN-SUFFIX,edge-chat.meta.ai
   - DOMAIN,api.meta.ai
