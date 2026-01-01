@@ -1,29 +1,29 @@
-# NAME: MetaAI - 2026 终极全自动加固版
+# NAME: MetaAI - 2026 终极全自动加固版 (修正 Windows 侧漏)
 payload:
-  # === 第一道防线：品牌关键词拦截 (保命核心) ===
+  # === 1. 品牌关键词拦截 (最强捕鱼网) ===
   - DOMAIN-KEYWORD,meta
   - DOMAIN-KEYWORD,facebook
   - DOMAIN-KEYWORD,instagram
   - DOMAIN-KEYWORD,threads
+  - DOMAIN-KEYWORD,fbcdn      # 很多图片资源不带 facebook，只带 fbcdn
+  - DOMAIN-KEYWORD,fbsbx      # 核心静态资源补丁
+  - DOMAIN-KEYWORD,oculus     # 某些底层授权域名
 
-  # === 第二道防线：Meta AI 核心域名 ===
+  # === 2. 核心域名后缀 (Suffix) ===
   - DOMAIN-SUFFIX,meta.ai
   - DOMAIN-SUFFIX,llama.com
   - DOMAIN-SUFFIX,llama-api.com
-  - DOMAIN-SUFFIX,llama.meta.com
   - DOMAIN-SUFFIX,auth.meta.com
   - DOMAIN-SUFFIX,accountscenter.meta.com
-
-  # === 第三道防线：Threads & 基础设施补丁 ===
-  - DOMAIN-SUFFIX,threads.com
+  - DOMAIN-SUFFIX,fb.com      # 补齐 fb.com 短域名
+  - DOMAIN-SUFFIX,fb.me
+  - DOMAIN-SUFFIX,ig.me
   - DOMAIN-SUFFIX,threads.net
+  - DOMAIN-SUFFIX,threads.com
   - DOMAIN-SUFFIX,barcelona.net
-  - DOMAIN-SUFFIX,fbcdn.net
+
+  # === 3. 基础设施与 CDN ===
   - DOMAIN-SUFFIX,graph.meta.com
   - DOMAIN-SUFFIX,edge-chat.meta.ai
-
-  # === 第四道防线：特定 API 与 资源探测 ===
   - DOMAIN,api.meta.ai
   - DOMAIN,imagine.static.meta.ai
-  - DOMAIN-SUFFIX,static.xx.fbcdn.net
-  - DOMAIN-SUFFIX,scontent.xx.fbcdn.net
