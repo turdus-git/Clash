@@ -1,4 +1,4 @@
-# NAME: Perplexity - 2026 加固版
+# NAME: Perplexity - 2026 最终加固版
 payload:
   # === 品牌关键词拦截 ===
   - DOMAIN-KEYWORD,perplexity
