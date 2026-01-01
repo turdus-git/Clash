@@ -1,4 +1,4 @@
-# NAME: LeChat (Mistral AI) - 2026 加固版
+# NAME: LeChat (Mistral AI) - 2026 最终加固版
 payload:
   # === 品牌关键词拦截 ===
   - DOMAIN-KEYWORD,mistral
