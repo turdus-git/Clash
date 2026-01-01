@@ -1,23 +1,14 @@
+# NAME: LeChat (Mistral AI)
+# AUTHOR: 指挥官自定义
+# UPDATED: 2026-01-01
+# DESCRIPTION: 针对 Mistral AI / LeChat 的无泄漏分流规则
+
 payload:
-  # ========== LeChat 主站与核心接口 ==========
+  # === Mistral AI 核心域名 (涵盖所有 mistral.ai 子域名) ===
   - DOMAIN-SUFFIX,mistral.ai
+  - DOMAIN-SUFFIX,mistral.com
   - DOMAIN-SUFFIX,lechat.ai
-  - DOMAIN-SUFFIX,api.mistral.ai
+  - DOMAIN-SUFFIX,mistral.run
 
-  # ========== 身份验证与账户服务 ==========
-  - DOMAIN-SUFFIX,auth.mistral.ai
-  - DOMAIN-SUFFIX,login.mistral.ai
-  - DOMAIN-SUFFIX,oauth.mistral.ai
-
-  # ========== 静态资源与 CDN ==========
-  - DOMAIN-SUFFIX,cdn.mistral.ai
-  - DOMAIN-SUFFIX,assets.mistral.ai
-  - DOMAIN-SUFFIX,static.mistral.ai
+  # === 静态资源托管 (Azure CDN) ===
   - DOMAIN-SUFFIX,mistralai-site.azureedge.net
-
-  # ========== 遥测与实验服务 ==========
-  - DOMAIN-SUFFIX,telemetry.mistral.ai
-  - DOMAIN-SUFFIX,experiments.mistral.ai
-
-  # ========== 备用域 ==========
-  - DOMAIN-SUFFIX,lechat.mistral.ai
