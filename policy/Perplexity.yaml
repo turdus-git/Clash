@@ -1,14 +1,11 @@
-# NAME: Perplexity (AI Search)
-# AUTHOR: 指挥官自定义
-# UPDATED: 2026-01-01
-# DESCRIPTION: 针对 Perplexity AI 的无泄漏分流规则
-
+# NAME: Perplexity - 2026 加固版
 payload:
-  # === Perplexity 核心域名 (自动涵盖 app, api, auth, login, cdn 等所有子域名) ===
+  # === 品牌关键词拦截 ===
+  - DOMAIN-KEYWORD,perplexity
+  
+  # === 核心域名 (Suffix) ===
   - DOMAIN-SUFFIX,perplexity.ai
   - DOMAIN-SUFFIX,pplx.ai
   - DOMAIN-SUFFIX,perplx.com
   - DOMAIN-SUFFIX,perplexityapp.ai
-
-  # === 静态资源托管 (Azure CDN) ===
   - DOMAIN-SUFFIX,perplexity-ai-site.azureedge.net
