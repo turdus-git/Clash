@@ -1,27 +1,34 @@
+# NAME: Global CDN & Assets (指向美国节点)
+# AUTHOR: 指挥官自定义
+# UPDATED: 2026-01-01
+# DESCRIPTION: 涵盖 Akamai, Fastly, Cloudfront 等主流 CDN，确保网页加载完整
+
 payload:
-  # ========== CDN 服务（必须代理）==========
+  # === 核心 CDN 服务商 (全面涵盖 akamai, fastly, aws s3, cloudfront) ===
   - DOMAIN-SUFFIX,akamai.net
   - DOMAIN-SUFFIX,akamaized.net
   - DOMAIN-SUFFIX,akamaihd.net
   - DOMAIN-SUFFIX,fastly.net
+  - DOMAIN-SUFFIX,cloudfront.net
+  - DOMAIN-SUFFIX,amazonaws.com
+  - DOMAIN-SUFFIX,edgecomputing.com
+
+  # === 公共前端库 (确保网页排版与脚本正常) ===
   - DOMAIN-SUFFIX,cdnjs.com
   - DOMAIN-SUFFIX,jsdelivr.net
   - DOMAIN-SUFFIX,unpkg.com
   - DOMAIN-SUFFIX,bootstrapcdn.com
   - DOMAIN-SUFFIX,stackpathcdn.com
-  - DOMAIN-SUFFIX,cloudfront.net
-  - DOMAIN-SUFFIX,s3.amazonaws.com
+  - DOMAIN-SUFFIX,typekit.net
+  - DOMAIN-SUFFIX,fonts.net
 
-  # ========== 身份验证（重要）==========
+  # === 关键身份验证与支付 (AI 订阅必须) ===
   - DOMAIN-SUFFIX,auth0.com
+  - DOMAIN-SUFFIX,stripe.com
+  - DOMAIN-SUFFIX,hcaptcha.com
+  - DOMAIN-SUFFIX,recaptcha.net
 
-  # ========== 开发工具（有用）==========
+  # === 开发与社交辅助 ===
   - DOMAIN-SUFFIX,sentry.io
   - DOMAIN-SUFFIX,segment.io
-
-  # ========== 评论/社交（国外服务）==========
   - DOMAIN-SUFFIX,disqus.com
-
-  # ========== 支付/字体（必须代理）==========
-  - DOMAIN-SUFFIX,stripe.com
-  - DOMAIN-SUFFIX,typekit.net
