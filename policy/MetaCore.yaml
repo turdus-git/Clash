@@ -1,0 +1,37 @@
+# NAME: MetaAI - 2026 终极工业级补丁 (全平台防侧漏)
+payload:
+  # === 1. 品牌关键词天网 (优先拦截) ===
+  - DOMAIN-KEYWORD,meta
+  - DOMAIN-KEYWORD,facebook
+  - DOMAIN-KEYWORD,instagram
+  - DOMAIN-KEYWORD,threads
+  - DOMAIN-KEYWORD,fbcdn
+  - DOMAIN-KEYWORD,fbsbx
+  - DOMAIN-KEYWORD,oculus
+
+  # === 2. 隐形基础设施补丁 ===
+  - DOMAIN-SUFFIX,tfbnw.net
+  - DOMAIN-SUFFIX,internalfb.com
+  - DOMAIN-SUFFIX,fb.com
+  - DOMAIN-SUFFIX,fb.me
+  - DOMAIN-SUFFIX,ig.me
+  - DOMAIN-SUFFIX,cdninstagram.com
+
+  # === 3. Meta AI & Llama 专用 ===
+  - DOMAIN-SUFFIX,meta.ai
+  - DOMAIN-SUFFIX,llama.com
+  - DOMAIN-SUFFIX,llama-api.com
+  - DOMAIN-SUFFIX,llama.meta.com
+  - DOMAIN-SUFFIX,auth.meta.com
+  - DOMAIN-SUFFIX,accountscenter.meta.com
+
+  # === 4. Threads 专用域名 ===
+  - DOMAIN-SUFFIX,threads.com
+  - DOMAIN-SUFFIX,threads.net
+  - DOMAIN-SUFFIX,barcelona.net
+
+  # === 5. API 与 资源 ===
+  - DOMAIN-SUFFIX,graph.meta.com
+  - DOMAIN-SUFFIX,edge-chat.meta.ai
+  - DOMAIN,api.meta.ai
+  - DOMAIN,imagine.static.meta.ai
