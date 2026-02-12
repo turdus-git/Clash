@@ -1,0 +1,7 @@
+payload:
+  - "+.dns.google"
+  - "+.1dot1dot1dot1.cloudflare-dns.com"
+  - "+.cloudflare-dns.com"
+  - "geoip.com"
+  - "ip-api.com"
+  - "ipapi.co"
