@@ -1,0 +1,24 @@
+name: DNS跟随策略组去中国化
+desc: 复刻Clash脚本逻辑，强制DNS流量走“2. DNS 类”策略组，实现DNS去中国化。
+
+# 第一部分：接管 DNS 系统
+dns:
+  enable: true
+  enhanced-mode: fake-ip
+  ipv6: false
+  default-nameserver: [223.5.5.5]
+  proxy-server-nameserver: [223.5.5.5]
+  nameserver:
+    - https://1.1.1.1/dns-query
+  nameserver-policy:
+    # 国内域名走国内直连
+    "geosite:cn": [223.5.5.5]
+    # 核心分流：海外服务请求发往特定的 DNS
+    "geosite:openai,anthropic,google,youtube,facebook,telegram,geolocation-!cn": https://1.1.1.1/dns-query
+
+# 第二部分：强制 DNS 请求走特定策略组（关键注入）
+rules:
+  # 这一行复刻了你脚本中 #2. DNS 类的逻辑
+  # 当 Stash 访问这个 DoH 服务器时，会强制将其路由到你的“2. DNS 类”策略组
+  - DOMAIN,one.one.one.one,2. DNS 类
+  - DOMAIN,1.1.1.1,2. DNS 类
