@@ -1,30 +1,42 @@
-name: DNS跟随策略组-稳定提速版
-desc: 保持昨天成功的格式，仅加入提速过滤。
+name: DNS跟随策略组-完全修正版
+desc: 修复!!str到[]string类型冲突，解决质量糟糕问题。
 
 dns:
   enable: true
   enhanced-mode: fake-ip
   ipv6: false
-  # 这里必须用方括号列表，Stash 认这个格式
-  default-nameserver: [223.5.5.5]
-  proxy-server-nameserver: [223.5.5.5]
+  # 必须写成这种横杠列表格式，绝不写成单行
+  default-nameserver:
+    - 223.5.5.5
+  proxy-server-nameserver:
+    - 223.5.5.5
   nameserver:
     - https://dns.google/dns-query
   
-  # === 提速核心：加入这几行过滤，网络质量就会变好 ===
+  # 解决“网络质量糟糕”的关键：排除掉系统测速，不让它们走DNS模块
   fake-ip-filter:
     - "connectivitycheck.gstatic.com"
     - "msftconnecttest.com"
     - "msftncsi.com"
     - "*.speedtest.net"
     - "speedtest.net"
+    - "cp.cloudflare.com"
 
   nameserver-policy:
-    # 保持昨天成功的单行写法
-    "geosite:cn": [223.5.5.5]
-    "geosite:openai,anthropic,google,youtube,facebook,telegram,geolocation-!cn": [https://dns.google/dns-query]
+    # 这里全部采用最严谨的 key: value 格式
+    "geosite:cn": 223.5.5.5
+    "geosite:apple": 223.5.5.5
+    "geosite:google": https://dns.google/dns-query
+    "geosite:openai": https://dns.google/dns-query
+    "geosite:facebook": https://dns.google/dns-query
+    "geosite:youtube": https://dns.google/dns-query
+    "geosite:telegram": https://dns.google/dns-query
+    "geosite:geolocation-!cn": https://dns.google/dns-query
 
 rules:
-  # 强制 DNS 流量进组，实现去中国化
+  # 强制让 DNS 查询本身的流量进入“2. DNS 类”
+  # 注意：策略组名称一定要加双引号，防止点号和空格导致解析错误
   - DOMAIN,dns.google,"2. DNS 类"
-  - DOMAIN,8.8.8.8,"2. DNS 类"
+  - DOMAIN,dns.google.com,"2. DNS 类"
+  - IP-CIDR,8.8.8.8/32,"2. DNS 类"
+  - IP-CIDR,8.8.4.4/32,"2. DNS 类"
