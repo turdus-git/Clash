@@ -1,32 +1,30 @@
-name: 复刻Clash脚本-最终修复版
-desc: 修复223.5.5.5列表报错，实现DNS跟随策略组
+name: DNS跟随策略组-稳定提速版
+desc: 保持昨天成功的格式，仅加入提速过滤。
 
 dns:
   enable: true
   enhanced-mode: fake-ip
   ipv6: false
-  # 核心修复：必须加上方括号 [ ]，将其声明为列表
+  # 这里必须用方括号列表，Stash 认这个格式
   default-nameserver: [223.5.5.5]
   proxy-server-nameserver: [223.5.5.5]
   nameserver:
     - https://dns.google/dns-query
   
-  # 性能优化：让系统测试和测速不走 Fake-IP
+  # === 提速核心：加入这几行过滤，网络质量就会变好 ===
   fake-ip-filter:
-    - "*.lan"
     - "connectivitycheck.gstatic.com"
-    - "speedtest.net"
-    - "*.speedtest.net"
     - "msftconnecttest.com"
     - "msftncsi.com"
+    - "*.speedtest.net"
+    - "speedtest.net"
 
   nameserver-policy:
-    # 这里的地址也建议加上方括号，保证兼容性
+    # 保持昨天成功的单行写法
     "geosite:cn": [223.5.5.5]
-    "geosite:openai,google,facebook,youtube,telegram,geolocation-!cn": [https://dns.google/dns-query]
+    "geosite:openai,anthropic,google,youtube,facebook,telegram,geolocation-!cn": [https://dns.google/dns-query]
 
 rules:
-  # 灵魂注入：强制让 DNS 流量打进策略组
+  # 强制 DNS 流量进组，实现去中国化
   - DOMAIN,dns.google,"2. DNS 类"
   - DOMAIN,8.8.8.8,"2. DNS 类"
-  - DOMAIN,8.8.4.4,"2. DNS 类"
