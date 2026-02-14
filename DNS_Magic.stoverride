@@ -1,21 +1,40 @@
-name: DNS跟随策略组去中国化
-desc: 强制DNS流量走“2. DNS 类”策略组
+name: DNS跟随策略组去中国化-性能优化版
+desc: 优化解析速度，减少网络延迟感
 
 dns:
   enable: true
   enhanced-mode: fake-ip
   ipv6: false
+  # 增加多个基础 DNS，防止连接节点时的解析卡顿
   default-nameserver:
     - 223.5.5.5
+    - 119.29.29.29
+    - 8.8.8.8
   proxy-server-nameserver:
     - 223.5.5.5
   nameserver:
+    - https://dns.google/dns-query
     - https://1.1.1.1/dns-query
+  
+  # 性能关键：过滤掉不需要走 Fake-IP 的流量
+  fake-ip-filter:
+    - "*.lan"
+    - "localhost.ptlogin2.qq.com"
+    - "speedtest.net"
+    - "*.speedtest.net"
+    - "connectivitycheck.gstatic.com"
+
   nameserver-policy:
     "geosite:cn": 223.5.5.5
-    "geosite:openai,anthropic,google,youtube,facebook,telegram,geolocation-!cn": https://1.1.1.1/dns-query
+    "geosite:apple": 223.5.5.5
+    "geosite:openai,google,facebook,youtube,telegram,geolocation-!cn":
+      - https://dns.google/dns-query
+      - https://1.1.1.1/dns-query
 
 rules:
-  # 给策略组名字加上引号，防止点号和空格被误认
+  # 让两个主流海外 DNS 都进入策略组
+  - DOMAIN,dns.google,"2. DNS 类"
   - DOMAIN,one.one.one.one,"2. DNS 类"
   - DOMAIN,1.1.1.1,"2. DNS 类"
+  - DOMAIN,8.8.8.8,"2. DNS 类"
+
