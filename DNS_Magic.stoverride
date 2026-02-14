@@ -1,27 +1,17 @@
-name: 复刻Clash脚本-终极注入
-desc: 模拟Mihomo全局脚本效果，DNS跟随2.DNS类出站
+name: 复刻Clash脚本-最终修复版
+desc: 修复223.5.5.5列表报错，实现DNS跟随策略组
 
-# 1. 对应你脚本里的 config["dns"] 部分
 dns:
   enable: true
   enhanced-mode: fake-ip
   ipv6: false
-  default-nameserver: 223.5.5.5
-  proxy-server-nameserver: 223.5.5.5
+  # 核心修复：必须加上方括号 [ ]，将其声明为列表
+  default-nameserver: [223.5.5.5]
+  proxy-server-nameserver: [223.5.5.5]
   nameserver:
     - https://dns.google/dns-query
-  nameserver-policy:
-    # 模拟 geosite:cn 走直连
-    "geosite:cn": 223.5.5.5
-    # 模拟其他 AI/海外服务走代理解析
-    "geosite:openai": https://dns.google/dns-query
-    "geosite:google": https://dns.google/dns-query
-    "geosite:facebook": https://dns.google/dns-query
-    "geosite:youtube": https://dns.google/dns-query
-    "geosite:geolocation-!cn": https://dns.google/dns-query
-
-# 2. 解决“网络质量糟糕”的关键：Fake-IP 过滤器
-# 很多系统级请求如果被 fake-ip 拦截会导致延迟显示异常，必须排除
+  
+  # 性能优化：让系统测试和测速不走 Fake-IP
   fake-ip-filter:
     - "*.lan"
     - "connectivitycheck.gstatic.com"
@@ -30,12 +20,13 @@ dns:
     - "msftconnecttest.com"
     - "msftncsi.com"
 
-# 3. 对应你脚本里 nameserver 后的 #DNS_GROUP
+  nameserver-policy:
+    # 这里的地址也建议加上方括号，保证兼容性
+    "geosite:cn": [223.5.5.5]
+    "geosite:openai,google,facebook,youtube,telegram,geolocation-!cn": [https://dns.google/dns-query]
+
 rules:
-  # 强制让 DNS 解析流量本身打进你的“2. DNS 类”策略组
-  # 这样你切换节点，泄露测试结果就会立刻跟着变
+  # 灵魂注入：强制让 DNS 流量打进策略组
   - DOMAIN,dns.google,"2. DNS 类"
   - DOMAIN,8.8.8.8,"2. DNS 类"
   - DOMAIN,8.8.4.4,"2. DNS 类"
-
-
