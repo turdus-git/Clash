@@ -1,41 +1,37 @@
-name: DNS-调度台-Stash 最终稳定版
-desc: 物理级封堵，且通过“域名排除”解决启动死循环。
+name: DNS-彻底去中国化-无损版
+desc: 解决DNS为0问题，通过规则层物理劫持DNS出口。
 
 dns:
   enable: true
   ipv6: false
   enhanced-mode: fake-ip
+  # ❶ 核心开关：必须为 true
   follow-rule: true
-  prefer-h3: true
   
-  # ❶ 基础解析器：必须用阿里，专门给机场域名开绿灯
+  # ❷ 基础解析器：全部用系统，保证 Stash 1秒启动
   default-nameserver:
-    - 223.5.5.5
+    - system
   proxy-server-nameserver:
-    - 223.5.5.5
+    - system
 
-  # ❷ 主解析器：设为阿里，保证 Stash 启动不卡死 0
+  # ❸ 主解析器：也用系统。不要怕泄露，我们会在下面劫持它。
   nameserver:
-    - 223.5.5.5
+    - system
 
-  # ❸ 物理劫持：拦截所有偷跑的 53 端口流量
+  # ❹ 物理劫持：任何尝试从 53 端口溜走的流量，统统抓回来
   dns-hijack:
     - "any:53"
 
+  # ❺ 策略指派：只保留最简单的国内直连
   nameserver-policy:
-    # ❹ 【关键防死开关】在这里填入你的机场域名后缀
-    # 强制让机场域名走本地系统解析，不进隧道，彻底打破死循环
-    "*.aaaa.com": system
-    "aaaa.com": system
     "geosite:cn": system
 
-    # ❺ 【精准指派】把测试网站锁死！这是消灭中国节点的关键
-    # 不用通配符，指名道姓地让它们去钻代理隧道
-    "browserleaks.com": "https://8.8.8.8/dns-query#DNS"
-    "whoer.net": "https://8.8.8.8/dns-query#DNS"
-    "dnsleaktest.com": "https://8.8.8.8/dns-query#DNS"
-    "geosite:geolocation-!cn": "https://8.8.8.8/dns-query#DNS"
-
-# ❻ 规则加固
+# ❻ 【核心逻辑转移】不再在 DNS 里指派，直接在规则里“肉体绑架”
+# 只要是国外流量，强制塞进 DNS 策略组。
+# 这里的名字必须和你配置文件里的策略组一字不差
 rules:
-  - "IP-CIDR,8.8.8.8/32,DNS"
+  - "DOMAIN-SUFFIX,browserleaks.com,DNS"
+  - "DOMAIN-SUFFIX,whoer.net,DNS"
+  - "DOMAIN-SUFFIX,dnsleaktest.com,DNS"
+  - "GEOIP,CN,DIRECT"
+  - "MATCH,DNS"
