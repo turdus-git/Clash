@@ -1,31 +1,34 @@
+name: 彻底消灭中国DNS-iPhone最终版
+desc: 物理封锁 Wi-Fi 泄露，强制所有请求钻入 DNS 隧道。
+
 dns:
   enable: true
   ipv6: false
   enhanced-mode: fake-ip
+  # ❶ 核心：开启跟随规则
   follow-rule: true
   
-  # 基础自检：用阿里只是为了解析机场
+  # ❷ 基础自检：用阿里只是为了让 Stash 连上机场，不参与业务
   default-nameserver:
     - 223.5.5.5
   proxy-server-nameserver:
     - 223.5.5.5
 
-  # 主解析器设为一个“诱饵”
+  # ❸ 主解析器：设为 8.8.8.8，不给系统留任何本地出口
   nameserver:
     - 8.8.8.8
 
-  # 【核心完善】强行劫持所有试图越狱的 DNS 流量
+  # ❹ 强力劫持：拦截所有发往 53 端口的尝试
   dns-hijack:
     - "any:53"
     - "tcp://any:53"
 
-  # 【核心完善】全域锁定：不再分 geosite，直接全量绑架
+  # ❺ 策略指派：通配符锁定到你的 DNS 组
   nameserver-policy:
+    "geosite:cn": 223.5.5.5
     "*": "https://dns.google/dns-query#DNS"
 
-  # 【核心完善】备用解析也锁死在国外，不给中国节点任何露脸机会
-  fallback:
-    - "https://1.1.1.1/dns-query#DNS"
-  fallback-filter:
-    geoip: false
-    ip-cidr: []
+# ❻ 物理绑架：确保 8.8.8.8 的流量跑不出手机，必须进隧道
+rules:
+  - "IP-CIDR,8.8.8.8/32,DNS"
+  - "IP-CIDR,8.8.4.4/32,DNS"
