@@ -1,38 +1,35 @@
-name: DNS-调度台-理论终极版
-desc: 针对 iPhone 蜂窝网络优化的“纯 IP 拦截”模式，杜绝并行查询泄露。
+name: 彻底消灭中国DNS
+desc: 物理级封堵中国节点，强制国外解析钻入代理隧道。
 
 dns:
   enable: true
   ipv6: false
   enhanced-mode: fake-ip
+  # ❶ 核心：开启跟随规则
   follow-rule: true
   
-  # ❶ 解决死循环的唯一钥匙：让机场域名和基础自检彻底走系统
+  # ❷ 基础自检：用 system 保证启动不卡死 0
   default-nameserver:
     - system
   proxy-server-nameserver:
     - system
 
-  # ❷ 关键改变：主解析器只写 8.8.8.8 (不带 https)
-  # 这样 DNS 请求会以“纯 UDP 流量”的形式发出，100% 会触发下面的规则拦截
+  # ❸ 主解析器：只写 8.8.8.8
+  # 它是“诱饵”，所有的解析请求都会发往这里，然后被下方的规则拦截
   nameserver:
     - 8.8.8.8
 
-  # ❸ 劫持所有 53 端口流量，强制回流
+  # ❹ 物理拦截网：这是消灭中国移动节点的关键！
+  # 强制抓回所有试图通过 53 端口逃逸的系统流量
   dns-hijack:
     - "any:53"
 
   nameserver-policy:
-    # 中国域名走系统，保速
+    # 中国域名走直连，保速
     "geosite:cn": system
-    
-    # 国外域名：不再写 https 指派，而是让它回退到主 nameserver (8.8.8.8)
-    # 然后由下面的 rules 模块完成“肉体绑架”
-    "geosite:geolocation-!cn": 8.8.8.8
 
-# ❹ 【理论核心】在覆写中强制插入 IP 拦截规则
-# 只要目标是 8.8.8.8，强制塞进 DNS 组。
-# 这样做的好处：iOS 系统识别不出这是 DNS 请求，只认为这是发往 8.8.8.8 的普通数据包
+# ❺ 规则置顶：【强制绑架】
+# 这里请把“2. FI-D-(Global)”替换为你最常用的那个香港或美国策略组名字
 rules:
-  - "IP-CIDR,8.8.8.8/32,DNS"
-  - "IP-CIDR,8.8.4.4/32,DNS"
+  - "IP-CIDR,8.8.8.8/32,2. FI-D-(Global)"
+  - "IP-CIDR,8.8.4.4/32,2. FI-D-(Global)"
