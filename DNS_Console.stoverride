@@ -1,4 +1,4 @@
-name: DNS-ULTIMATE-對齊版
+name: DNS-STASH-FINALLY-DEATHLOCK-FIX
 dns:
   enable: true
   ipv6: false
@@ -8,8 +8,10 @@ dns:
     - 223.5.5.5
   proxy-server-nameserver:
     - 223.5.5.5
+
   nameserver:
-    - "https://1.1.1.1/dns-query#DNS"
+    - 1.1.1.1
+    - 1.0.0.1
   dns-hijack:
     - "any:53"
     - "tcp://any:53"
@@ -17,5 +19,8 @@ dns:
     "geosite:cn": system
     "*.r7kq-2nfa-hg9x-bt4m-y3pw.sbs": system
     "r7kq-2nfa-hg9x-bt4m-y3pw.sbs": system
+
     "*": "https://1.1.1.1/dns-query#DNS"
+
+
 
