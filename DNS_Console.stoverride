@@ -1,23 +1,41 @@
-name: DNS-调度台-终极对齐
-desc: 物理级封堵系统后门，强制国外解析钻入 DNS 策略组。
+name: DNS-调度台-Stash 最终稳定版
+desc: 物理级封堵，且通过“域名排除”解决启动死循环。
+
 dns:
   enable: true
   ipv6: false
   enhanced-mode: fake-ip
   follow-rule: true
   prefer-h3: true
+  
+  # ❶ 基础解析器：必须用阿里，专门给机场域名开绿灯
   default-nameserver:
     - 223.5.5.5
   proxy-server-nameserver:
     - 223.5.5.5
+
+  # ❷ 主解析器：设为阿里，保证 Stash 启动不卡死 0
   nameserver:
-    - 8.8.8.8
+    - 223.5.5.5
+
+  # ❸ 物理劫持：拦截所有偷跑的 53 端口流量
   dns-hijack:
     - "any:53"
-    - "tcp://any:53"
+
   nameserver-policy:
-    # 强制所有国外请求钻进 DNS 策略组
-    "*": "https://dns.google/dns-query#DNS"
+    # ❹ 【关键防死开关】在这里填入你的机场域名后缀
+    # 强制让机场域名走本地系统解析，不进隧道，彻底打破死循环
+    "*.aaaa.com": system
+    "aaaa.com": system
+    "geosite:cn": system
+
+    # ❺ 【精准指派】把测试网站锁死！这是消灭中国节点的关键
+    # 不用通配符，指名道姓地让它们去钻代理隧道
+    "browserleaks.com": "https://8.8.8.8/dns-query#DNS"
+    "whoer.net": "https://8.8.8.8/dns-query#DNS"
+    "dnsleaktest.com": "https://8.8.8.8/dns-query#DNS"
+    "geosite:geolocation-!cn": "https://8.8.8.8/dns-query#DNS"
+
+# ❻ 规则加固
 rules:
   - "IP-CIDR,8.8.8.8/32,DNS"
-  - "IP-CIDR,8.8.4.4/32,DNS"
