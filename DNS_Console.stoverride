@@ -1,9 +1,11 @@
-name: DNS-STASH-FINALLY-DEATHLOCK-FIX
+name: DNS-COMMAND-STASH-STABLE
 dns:
   enable: true
   ipv6: false
   enhanced-mode: fake-ip
   follow-rule: true
+  prefer-h3: true
+  
   default-nameserver:
     - 223.5.5.5
   proxy-server-nameserver:
@@ -12,15 +14,17 @@ dns:
   nameserver:
     - 1.1.1.1
     - 1.0.0.1
+
+
   dns-hijack:
     - "any:53"
     - "tcp://any:53"
+
   nameserver-policy:
-    "geosite:cn": system
+
     "*.r7kq-2nfa-hg9x-bt4m-y3pw.sbs": system
     "r7kq-2nfa-hg9x-bt4m-y3pw.sbs": system
+    
 
+    "geosite:geolocation-!cn": "https://1.1.1.1/dns-query#DNS"
     "*": "https://1.1.1.1/dns-query#DNS"
-
-
-
