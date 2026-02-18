@@ -1,36 +1,43 @@
-name: DNS-调度台-iPhone-最终绝杀
-desc: 彻底封死 iOS 系统后门，强制所有 DNS 请求回流 Stash 引擎。
+name: DNS-调度台-蜂窝数据专项版
+desc: 专门解决 iPhone 移动数据下中国节点泄露问题。
 
 dns:
   enable: true
   ipv6: false
   enhanced-mode: fake-ip
-  # ❶ 核心开关：开启跟随规则
+  # ❶ 必须开启，否则规则绑架无效
   follow-rule: true
+  prefer-h3: true
   
-  # ❷ 基础解析用 system，确保启动顺滑（你解决死循环的方法）
+  # ❷ 解决 DNS 0 的关键：保留 system 但放在 nameserver 最末尾
   default-nameserver:
-    - system
+    - 223.5.5.5
   proxy-server-nameserver:
-    - system
+    - 223.5.5.5
 
-  # ❸ 主解析器：直接锁死在 DNS 策略组
+  # ❸ 主解析器锁定：强制让 8.8.8.8 入组
   nameserver:
     - "https://8.8.8.8/dns-query#DNS"
 
-  # ❹ 【关键：劫持所有 53 端口】
-  # 强制抓回所有试图直接连接运营商 DNS 的系统流量
+  # ❹ 强力劫持：这是消灭中国移动节点的关键
   dns-hijack:
     - "any:53"
     - "tcp://any:53"
 
   nameserver-policy:
-    # 强制中国域名走系统直连
+    # 强制国内直连
     "geosite:cn": system
-    # ❺ 强制锁定：星号通配符必须放在最后，代表所有国外请求钻进隧道
+    
+    # ❺ 精准指派：把测试网站写死，防止它们滑向系统 DNS
+    "whoer.net": "https://8.8.8.8/dns-query#DNS"
+    "browserleaks.com": "https://8.8.8.8/dns-query#DNS"
+    "dnsleaktest.com": "https://8.8.8.8/dns-query#DNS"
+    "geosite:geolocation-!cn": "https://8.8.8.8/dns-query#DNS"
+    
+    # ❻ 兜底通配符
     "*": "https://8.8.8.8/dns-query#DNS"
 
-# ❻ 规则加固：配合 follow-rule，确保 DNS 请求不走偏
+# ❼ 规则层再次加固
 rules:
   - "IP-CIDR,8.8.8.8/32,DNS"
   - "IP-CIDR,8.8.4.4/32,DNS"
