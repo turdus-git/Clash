@@ -1,37 +1,31 @@
-name: 彻底消灭中国DNS-终极物理版
-desc: 强制拦截 iOS 所有并发请求，利用 Fake-IP 彻底切断本地解析。
-
 dns:
   enable: true
   ipv6: false
   enhanced-mode: fake-ip
-  # ❶ 必须开启：让所有 DNS 请求必须去跑规则
   follow-rule: true
-  prefer-h3: true
   
-  # ❷ 彻底踢出 system：基础解析只允许用阿里 IP（仅用于连机场）
+  # 基础自检：用阿里只是为了解析机场
   default-nameserver:
     - 223.5.5.5
   proxy-server-nameserver:
     - 223.5.5.5
 
-  # ❸ 诱饵解析器：强制设为 8.8.8.8
-  # 不准写 system，不准留任何本地入口
+  # 主解析器设为一个“诱饵”
   nameserver:
     - 8.8.8.8
 
-  # ❹ 强力劫持：这是在 iOS 上生存的铁律
+  # 【核心完善】强行劫持所有试图越狱的 DNS 流量
   dns-hijack:
     - "any:53"
     - "tcp://any:53"
 
+  # 【核心完善】全域锁定：不再分 geosite，直接全量绑架
   nameserver-policy:
-    # 彻底废除 geosite:cn 
-    # 强制所有流量钻入你的核心代理组
-    # 注意：这里的名字必须和你配置文件里的【国外兜底组】一模一样
-    "*": "https://8.8.8.8/dns-query#2. FI-D-(Global)"
+    "*": "https://dns.google/dns-query#DNS"
 
-# ❺ 物理绑架规则
-rules:
-  - "IP-CIDR,8.8.8.8/32,2. FI-D-(Global)"
-  - "IP-CIDR,8.8.4.4/32,2. FI-D-(Global)"
+  # 【核心完善】备用解析也锁死在国外，不给中国节点任何露脸机会
+  fallback:
+    - "https://1.1.1.1/dns-query#DNS"
+  fallback-filter:
+    geoip: false
+    ip-cidr: []
