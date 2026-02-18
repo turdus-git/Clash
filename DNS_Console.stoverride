@@ -1,35 +1,41 @@
-name: 彻底消灭中国DNS
-desc: 物理级封堵中国节点，强制国外解析钻入代理隧道。
+name: 彻底消灭中国DNS-iPhone版
+desc: 强制拦截系统并发解析，彻底封死运营商53端口后门。
 
 dns:
   enable: true
   ipv6: false
   enhanced-mode: fake-ip
-  # ❶ 核心：开启跟随规则
+  # ❶ 必须开启
   follow-rule: true
   
-  # ❷ 基础自检：用 system 保证启动不卡死 0
+  # ❷ 基础解析器：只写一个纯IP，防止域名解析循环
   default-nameserver:
-    - system
+    - 119.29.29.29
   proxy-server-nameserver:
-    - system
+    - 119.29.29.29
 
-  # ❸ 主解析器：只写 8.8.8.8
-  # 它是“诱饵”，所有的解析请求都会发往这里，然后被下方的规则拦截
+  # ❸ 主解析器：不再用 system，改用 8.8.8.8 配合下方规则
+  # 这样 Stash 会认为所有的解析都必须经过规则判定
   nameserver:
     - 8.8.8.8
 
-  # ❹ 物理拦截网：这是消灭中国移动节点的关键！
-  # 强制抓回所有试图通过 53 端口逃逸的系统流量
+  # ❹ 强力劫持：Stash 的灵魂，强制抓回所有 53 端口包
   dns-hijack:
     - "any:53"
+    - "tcp://any:53"
 
   nameserver-policy:
-    # 中国域名走直连，保速
-    "geosite:cn": system
+    # 彻底删掉 geosite:cn，不给中国 DNS 留任何名分
+    # 国外流量全部强制入组
+    "*": "https://8.8.8.8/dns-query#2. FI-D-(Global)"
 
-# ❺ 规则置顶：【强制绑架】
-# 这里请把“2. FI-D-(Global)”替换为你最常用的那个香港或美国策略组名字
+# ❺ 物理封锁规则（核心：封死中国移动解析路径）
 rules:
+  # A. 强行绑架 DNS 服务器 IP 到你的香港/美国组
   - "IP-CIDR,8.8.8.8/32,2. FI-D-(Global)"
   - "IP-CIDR,8.8.4.4/32,2. FI-D-(Global)"
+  
+  # B. 【核武器】直接拦截并封杀你截图里出现的中国移动 DNS 段
+  # 只要系统想偷偷连移动的 DNS 服务器，直接让它断网，逼它走 Stash 隧道
+  - "IP-CIDR,221.179.155.0/24,REJECT"
+  - "IP-CIDR,120.196.165.0/24,REJECT"
