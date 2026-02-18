@@ -1,4 +1,4 @@
-name: DNS-FINAL-STASH
+name: DNS-ULTIMATE-對齊版
 dns:
   enable: true
   ipv6: false
@@ -9,11 +9,13 @@ dns:
   proxy-server-nameserver:
     - 223.5.5.5
   nameserver:
-    - system
+    - "https://1.1.1.1/dns-query#DNS"
   dns-hijack:
     - "any:53"
+    - "tcp://any:53"
   nameserver-policy:
     "geosite:cn": system
     "*.r7kq-2nfa-hg9x-bt4m-y3pw.sbs": system
     "r7kq-2nfa-hg9x-bt4m-y3pw.sbs": system
-    "*": "https://8.8.8.8/dns-query#DNS"
+    "*": "https://1.1.1.1/dns-query#DNS"
+
