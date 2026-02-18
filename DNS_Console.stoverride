@@ -1,4 +1,4 @@
-name: DNS-SUCCESS-VERSION
+name: DNS-SUCCESS-ORIGINAL
 dns:
   enable: true
   ipv6: false
@@ -9,14 +9,15 @@ dns:
   proxy-server-nameserver:
     - 223.5.5.5
   nameserver:
-    - 223.5.5.5
+    - system
   dns-hijack:
     - "any:53"
   nameserver-policy:
-    "geosite:cn": 223.5.5.5
+    "geosite:cn": system
     "browserleaks.com": "https://8.8.8.8/dns-query#DNS"
     "whoer.net": "https://8.8.8.8/dns-query#DNS"
     "geosite:geolocation-!cn": "https://8.8.8.8/dns-query#DNS"
+
 
 
 
