@@ -1,22 +1,24 @@
-name: DNS-调度台
-desc: 强制国外域名解析通过名为 DNS 的策略组出口，国内直连。
+name: DNS-调度台-终极版
+desc: 强制国外解析跟着策略组走，物理级封堵国内泄露。
 dns:
   enable: true
   ipv6: false
   enhanced-mode: fake-ip
-  # 极其关键：Stash 开启“跟随规则”开关
   follow-rule: true
   default-nameserver:
     - 223.5.5.5
   proxy-server-nameserver:
     - 223.5.5.5
+  # 【关键改动】主解析器不再用 system，改用 8.8.8.8，配合下方规则强行入组
   nameserver:
-    - system
+    - 8.8.8.8
   nameserver-policy:
-    # ❶ 中国域名走系统解析，保速且不卡死
     "geosite:cn": system
-    # ❷ 核心指派：锁定到名为 DNS 的策略组
-    # 使用 IP 形式防止解析 dns.google 时的递归死循环
     "browserleaks.com": "8.8.8.8#DNS"
     "whoer.net": "8.8.8.8#DNS"
     "geosite:geolocation-!cn": "8.8.8.8#DNS"
+
+# 【新增核心】在覆写中直接插入规则，强制绑架 DNS 服务器的 IP
+rules:
+  - "IP-CIDR,8.8.8.8/32,DNS"
+  - "IP-CIDR,1.1.1.1/32,DNS"
