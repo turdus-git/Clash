@@ -1,37 +1,45 @@
-name: DNS-彻底去中国化-无损版
-desc: 解决DNS为0问题，通过规则层物理劫持DNS出口。
+name: DNS-调度台-消灭中国节点版
+desc: 针对插入手机卡环境优化，物理级封堵运营商DNS后门。
 
 dns:
   enable: true
   ipv6: false
   enhanced-mode: fake-ip
-  # ❶ 核心开关：必须为 true
+  # ❶ 核心：继续保持 true，确保调度功能
   follow-rule: true
+  prefer-h3: true
   
-  # ❷ 基础解析器：全部用系统，保证 Stash 1秒启动
+  # ❷ 基础自检：仅限阿里，用于解析机场域名，不给系统DNS露脸机会
   default-nameserver:
-    - system
+    - 223.5.5.5
   proxy-server-nameserver:
-    - system
+    - 223.5.5.5
 
-  # ❸ 主解析器：也用系统。不要怕泄露，我们会在下面劫持它。
+  # ❸ 主解析器：【重大改动】彻底踢出 system！
+  # 强制使用国外 IP 配合规则拦截，这样系统想“抢跑”也没路可走
   nameserver:
-    - system
+    - 8.8.8.8
 
-  # ❹ 物理劫持：任何尝试从 53 端口溜走的流量，统统抓回来
+  # ❹ 【核心武器：全流量劫持】
+  # 无论系统想通过哪个后门发 53 端口的包，统统抓回来塞进 Stash 引擎
   dns-hijack:
     - "any:53"
+    - "tcp://any:53"
 
-  # ❺ 策略指派：只保留最简单的国内直连
   nameserver-policy:
-    "geosite:cn": system
+    # A. 国内直连通道（仅限中国域名使用阿里，保速）
+    "geosite:cn": 223.5.5.5
+    
+    # B. 机场域名特权：防止启动死循环（请确保名字正确）
+    "*.aaaa.com": system
+    "aaaa.com": system
 
-# ❻ 【核心逻辑转移】不再在 DNS 里指派，直接在规则里“肉体绑架”
-# 只要是国外流量，强制塞进 DNS 策略组。
-# 这里的名字必须和你配置文件里的策略组一字不差
+    # C. 国外调度：强制所有国外流量钻进你的名为“10. DNS”的策略组
+    # 注意：一定要确认你的策略组名字是 10. DNS 还是 一. DNS
+    "geosite:geolocation-!cn": "https://8.8.8.8/dns-query#10. DNS"
+    "*": "https://8.8.8.8/dns-query#10. DNS"
+
+# ❺ 物理绑架规则
 rules:
-  - "DOMAIN-SUFFIX,browserleaks.com,DNS"
-  - "DOMAIN-SUFFIX,whoer.net,DNS"
-  - "DOMAIN-SUFFIX,dnsleaktest.com,DNS"
-  - "GEOIP,CN,DIRECT"
-  - "MATCH,DNS"
+  - "IP-CIDR,8.8.8.8/32,10. DNS"
+  - "IP-CIDR,8.8.4.4/32,10. DNS"
