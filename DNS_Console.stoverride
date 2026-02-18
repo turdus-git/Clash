@@ -1,38 +1,36 @@
-name: DNS-调度台-终极对齐
-desc: 物理级焊死 iOS 系统后门，确保国外解析绝对钻入 DNS 策略组。
+name: DNS-调度台-iPhone-最终绝杀
+desc: 彻底封死 iOS 系统后门，强制所有 DNS 请求回流 Stash 引擎。
+
 dns:
   enable: true
   ipv6: false
   enhanced-mode: fake-ip
-  # ❶ 必须开启，确保所有 DNS 请求经过 Stash 引擎
+  # ❶ 核心开关：开启跟随规则
   follow-rule: true
-  prefer-h3: true
   
+  # ❷ 基础解析用 system，确保启动顺滑（你解决死循环的方法）
   default-nameserver:
-    - 223.5.5.5
+    - system
   proxy-server-nameserver:
-    - 223.5.5.5
+    - system
 
-  # ❷ 主解析器：直接锁死在 DNS 策略组，不再写 system
+  # ❸ 主解析器：直接锁死在 DNS 策略组
   nameserver:
     - "https://8.8.8.8/dns-query#DNS"
 
-  # ❸ 物理劫持：拦截所有试图通过 53 端口流向运营商的流量
+  # ❹ 【关键：劫持所有 53 端口】
+  # 强制抓回所有试图直接连接运营商 DNS 的系统流量
   dns-hijack:
     - "any:53"
     - "tcp://any:53"
 
   nameserver-policy:
-    # 强制国内直连，不影响国内速度
-    "geosite:cn": 223.5.5.5
-    
-    # 【核心：精准绑架测试域名】
-    # 我们把测试域名一个一个列出来，强行指派到 DNS 策略组
-    "browserleaks.com": "https://8.8.8.8/dns-query#DNS"
-    "whoer.net": "https://8.8.8.8/dns-query#DNS"
-    "dnsleaktest.com": "https://8.8.8.8/dns-query#DNS"
-    "ipleak.net": "https://8.8.8.8/dns-query#DNS"
-    "ipinfo.io": "https://8.8.8.8/dns-query#DNS"
-    
-    # ❹ 锁定国外大类
-    "geosite:geolocation-!cn": "https://8.8.8.8/dns-query#DNS"
+    # 强制中国域名走系统直连
+    "geosite:cn": system
+    # ❺ 强制锁定：星号通配符必须放在最后，代表所有国外请求钻进隧道
+    "*": "https://8.8.8.8/dns-query#DNS"
+
+# ❻ 规则加固：配合 follow-rule，确保 DNS 请求不走偏
+rules:
+  - "IP-CIDR,8.8.8.8/32,DNS"
+  - "IP-CIDR,8.8.4.4/32,DNS"
