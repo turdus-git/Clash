@@ -1,22 +1,21 @@
-name: DNS-COMMAND-STASH-STABLE
+name: DNS-SUCCESS-RECOVERY
 dns:
   enable: true
   ipv6: false
   enhanced-mode: fake-ip
   follow-rule: true
-  prefer-h3: true
   default-nameserver:
     - 223.5.5.5
   proxy-server-nameserver:
     - 223.5.5.5
   nameserver:
-    - 1.1.1.1
-    - 1.0.0.1
+    - system
   dns-hijack:
     - "any:53"
-    - "tcp://any:53"
   nameserver-policy:
+    "geosite:cn": system
     "*.r7kq-2nfa-hg9x-bt4m-y3pw.sbs": system
     "r7kq-2nfa-hg9x-bt4m-y3pw.sbs": system
-    "geosite:cn": 223.5.5.5
+    "*": "https://8.8.8.8/dns-query#DNS"
+
 
