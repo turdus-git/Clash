@@ -1,36 +1,39 @@
-name: DNS-调度台-Stash定稿
-desc: 物理级锁定解析出口，利用劫持功能彻底封堵中国泄露。
+name: DNS-调度台-iPhone专用
+desc: 彻底封堵 iOS 系统后门，强制国外解析钻入 DNS 策略组隧道。
 dns:
   enable: true
   ipv6: false
   enhanced-mode: fake-ip
-  # ❶ 必须保持开启，确保解析跟着节点走
+  # ❶ 核心开关：必须开启，确保解析跟着节点走
   follow-rule: true
   prefer-h3: true
   
+  # ❷ 基础解析器：仅保留阿里 IP，用于解析机场域名
   default-nameserver:
     - 223.5.5.5
   proxy-server-nameserver:
     - 223.5.5.5
 
-  # ❷ 主解析器：直接绑定 DNS 策略组，不留任何国内后门
+  # ❸ 主解析器：【极其关键】绝对不能写 system！
+  # 写了 system 就会泄露中国节点。我们强制它去撞 DNS 策略组。
   nameserver:
     - "https://1.1.1.1/dns-query#DNS"
 
-  nameserver-policy:
-    # ❸ 国内保护：必须放在第一行，强制国内走阿里
-    "geosite:cn": 223.5.5.5
-    # ❹ 物理绑架：所有国外流量锁死在 DNS 组
-    "geosite:geolocation-!cn": "https://1.1.1.1/dns-query#DNS"
-
-  # ❺ 【核心杀手锏】强行劫持系统所有 53 端口流量，不给中国 DNS 任何“抢跑”的机会
+  # ❹ 物理级拦截规则：Stash 独有的劫持功能
   dns-hijack:
     - "any:53"
     - "tcp://any:53"
 
-# ❻ 在覆写中插入物理规则，强制锁定 1.1.1.1 的出口
+  nameserver-policy:
+    # 强制国内直连，不给国外 DNS 干扰国内的速度
+    "geosite:cn": 223.5.5.5
+    
+    # 核心：将所有“非中国”域名强制绑架到 DNS 组
+    # 在 Stash 中，使用 * 作为通配符比 + 更强力
+    "geosite:geolocation-!cn": "https://1.1.1.1/dns-query#DNS"
+    "*": "https://1.1.1.1/dns-query#DNS"
+
+# ❺ 规则层加固：确保 1.1.1.1 自身的数据包走 DNS 组出口
 rules:
   - "IP-CIDR,1.1.1.1/32,DNS"
   - "IP-CIDR,1.0.0.1/32,DNS"
-
-
