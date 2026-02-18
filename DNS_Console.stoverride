@@ -1,45 +1,19 @@
-name: DNS-调度台-消灭中国节点版
-desc: 针对插入手机卡环境优化，物理级封堵运营商DNS后门。
-
+name: DNS-FINAL-STASH
 dns:
   enable: true
   ipv6: false
   enhanced-mode: fake-ip
-  # ❶ 核心：继续保持 true，确保调度功能
   follow-rule: true
-  prefer-h3: true
-  
-  # ❷ 基础自检：仅限阿里，用于解析机场域名，不给系统DNS露脸机会
   default-nameserver:
     - 223.5.5.5
   proxy-server-nameserver:
     - 223.5.5.5
-
-  # ❸ 主解析器：【重大改动】彻底踢出 system！
-  # 强制使用国外 IP 配合规则拦截，这样系统想“抢跑”也没路可走
   nameserver:
-    - 8.8.8.8
-
-  # ❹ 【核心武器：全流量劫持】
-  # 无论系统想通过哪个后门发 53 端口的包，统统抓回来塞进 Stash 引擎
+    - system
   dns-hijack:
     - "any:53"
-    - "tcp://any:53"
-
   nameserver-policy:
-    # A. 国内直连通道（仅限中国域名使用阿里，保速）
-    "geosite:cn": 223.5.5.5
-    
-    # B. 机场域名特权：防止启动死循环（请确保名字正确）
-    "*.aaaa.com": system
-    "aaaa.com": system
-
-    # C. 国外调度：强制所有国外流量钻进你的名为“10. DNS”的策略组
-    # 注意：一定要确认你的策略组名字是 10. DNS 还是 一. DNS
-    "geosite:geolocation-!cn": "https://8.8.8.8/dns-query#10. DNS"
-    "*": "https://8.8.8.8/dns-query#10. DNS"
-
-# ❺ 物理绑架规则
-rules:
-  - "IP-CIDR,8.8.8.8/32,10. DNS"
-  - "IP-CIDR,8.8.4.4/32,10. DNS"
+    "geosite:cn": system
+    "*.r7kq-2nfa-hg9x-bt4m-y3pw.sbs": system
+    "r7kq-2nfa-hg9x-bt4m-y3pw.sbs": system
+    "*": "https://8.8.8.8/dns-query#DNS"
