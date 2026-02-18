@@ -1,22 +1,30 @@
-name: DNS-SUCCESS-ORIGINAL
+name: DNS-彻底去中国化-无损版
+desc: 解决DNS为0问题，通过规则层物理劫持DNS出口。
+
 dns:
   enable: true
   ipv6: false
   enhanced-mode: fake-ip
+  # ❶ 核心开关：必须为 true
   follow-rule: true
+  
+  # ❷ 基础解析器：全部用系统，保证 Stash 1秒启动
   default-nameserver:
-    - 223.5.5.5
+    - system
   proxy-server-nameserver:
-    - 223.5.5.5
+    - system
+
+  # ❸ 主解析器：也用系统。不要怕泄露，我们会在下面劫持它。
   nameserver:
     - system
+
+  # ❹ 物理劫持：任何尝试从 53 端口溜走的流量，统统抓回来
   dns-hijack:
     - "any:53"
+
+  # ❺ 策略指派：只保留最简单的国内直连
   nameserver-policy:
     "geosite:cn": system
-    "browserleaks.com": "https://8.8.8.8/dns-query#DNS"
-    "whoer.net": "https://8.8.8.8/dns-query#DNS"
-    "geosite:geolocation-!cn": "https://8.8.8.8/dns-query#DNS"
 
 
 
