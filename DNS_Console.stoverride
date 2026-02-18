@@ -1,43 +1,38 @@
-name: DNS-调度台-蜂窝数据专项版
-desc: 专门解决 iPhone 移动数据下中国节点泄露问题。
+name: DNS-调度台-理论终极版
+desc: 针对 iPhone 蜂窝网络优化的“纯 IP 拦截”模式，杜绝并行查询泄露。
 
 dns:
   enable: true
   ipv6: false
   enhanced-mode: fake-ip
-  # ❶ 必须开启，否则规则绑架无效
   follow-rule: true
-  prefer-h3: true
   
-  # ❷ 解决 DNS 0 的关键：保留 system 但放在 nameserver 最末尾
+  # ❶ 解决死循环的唯一钥匙：让机场域名和基础自检彻底走系统
   default-nameserver:
-    - 223.5.5.5
+    - system
   proxy-server-nameserver:
-    - 223.5.5.5
+    - system
 
-  # ❸ 主解析器锁定：强制让 8.8.8.8 入组
+  # ❷ 关键改变：主解析器只写 8.8.8.8 (不带 https)
+  # 这样 DNS 请求会以“纯 UDP 流量”的形式发出，100% 会触发下面的规则拦截
   nameserver:
-    - "https://8.8.8.8/dns-query#DNS"
+    - 8.8.8.8
 
-  # ❹ 强力劫持：这是消灭中国移动节点的关键
+  # ❸ 劫持所有 53 端口流量，强制回流
   dns-hijack:
     - "any:53"
-    - "tcp://any:53"
 
   nameserver-policy:
-    # 强制国内直连
+    # 中国域名走系统，保速
     "geosite:cn": system
     
-    # ❺ 精准指派：把测试网站写死，防止它们滑向系统 DNS
-    "whoer.net": "https://8.8.8.8/dns-query#DNS"
-    "browserleaks.com": "https://8.8.8.8/dns-query#DNS"
-    "dnsleaktest.com": "https://8.8.8.8/dns-query#DNS"
-    "geosite:geolocation-!cn": "https://8.8.8.8/dns-query#DNS"
-    
-    # ❻ 兜底通配符
-    "*": "https://8.8.8.8/dns-query#DNS"
+    # 国外域名：不再写 https 指派，而是让它回退到主 nameserver (8.8.8.8)
+    # 然后由下面的 rules 模块完成“肉体绑架”
+    "geosite:geolocation-!cn": 8.8.8.8
 
-# ❼ 规则层再次加固
+# ❹ 【理论核心】在覆写中强制插入 IP 拦截规则
+# 只要目标是 8.8.8.8，强制塞进 DNS 组。
+# 这样做的好处：iOS 系统识别不出这是 DNS 请求，只认为这是发往 8.8.8.8 的普通数据包
 rules:
   - "IP-CIDR,8.8.8.8/32,DNS"
   - "IP-CIDR,8.8.4.4/32,DNS"
