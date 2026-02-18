@@ -19,4 +19,4 @@ dns:
     "*.r7kq-2nfa-hg9x-bt4m-y3pw.sbs": system
     "r7kq-2nfa-hg9x-bt4m-y3pw.sbs": system
     "geosite:cn": 223.5.5.5
-    "*": "https://1.1.1.1/dns-query#DNS"
+
