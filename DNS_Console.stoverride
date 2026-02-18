@@ -1,4 +1,4 @@
-name: DNS-SUCCESS-RECOVERY
+name: DNS-SUCCESS-VERSION
 dns:
   enable: true
   ipv6: false
@@ -9,13 +9,14 @@ dns:
   proxy-server-nameserver:
     - 223.5.5.5
   nameserver:
-    - system
+    - 223.5.5.5
   dns-hijack:
     - "any:53"
   nameserver-policy:
-    "geosite:cn": system
-    "*.r7kq-2nfa-hg9x-bt4m-y3pw.sbs": system
-    "r7kq-2nfa-hg9x-bt4m-y3pw.sbs": system
-    "*": "https://8.8.8.8/dns-query#DNS"
+    "geosite:cn": 223.5.5.5
+    "browserleaks.com": "https://8.8.8.8/dns-query#DNS"
+    "whoer.net": "https://8.8.8.8/dns-query#DNS"
+    "geosite:geolocation-!cn": "https://8.8.8.8/dns-query#DNS"
+
 
 
