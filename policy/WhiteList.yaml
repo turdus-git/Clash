@@ -22,5 +22,3 @@ payload:
   - DOMAIN-SUFFIX,swcdn.apple.com
   - DOMAIN-SUFFIX,swdist.apple.com
 
-  # Apple 自有 IP
-  - IP-CIDR,17.0.0.0/8
