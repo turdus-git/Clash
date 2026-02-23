@@ -1,0 +1,26 @@
+payload:
+  # Apple ID / 认证
+  - DOMAIN-SUFFIX,appleid.apple.com
+  - DOMAIN-SUFFIX,idmsa.apple.com
+  - DOMAIN-SUFFIX,gsa.apple.com
+
+  # iCloud
+  - DOMAIN-SUFFIX,icloud.com
+  - DOMAIN-SUFFIX,icloud-content.com
+
+  # 推送
+  - DOMAIN-SUFFIX,push.apple.com
+
+  # 证书校验
+  - DOMAIN-SUFFIX,ocsp.apple.com
+  - DOMAIN-SUFFIX,crl.apple.com
+  - DOMAIN-SUFFIX,valid.apple.com
+
+  # 系统更新
+  - DOMAIN-SUFFIX,mesu.apple.com
+  - DOMAIN-SUFFIX,swscan.apple.com
+  - DOMAIN-SUFFIX,swcdn.apple.com
+  - DOMAIN-SUFFIX,swdist.apple.com
+
+  # Apple 自有 IP
+  - IP-CIDR,17.0.0.0/8
