@@ -1,37 +1,11 @@
-# NAME: MetaAI - 2026 终极工业级补丁 (全平台防侧漏)
+# NAME: MetaCore
+# DESCRIPTION: Meta AI 专属补丁，需与 Blackmatrix 的规则配合使用
+# UPDATED: 2026-02-23
+# 注意: 本文件仅补充 FB/Threads 规则未覆盖的真实缺口。
+# 前提: 此补丁需与 Facebook.yaml 走相同的非封锁区节点 (如美国) 才能正常使用 Meta AI。
+
 payload:
-  # === 1. 品牌关键词天网 (优先拦截) ===
-  - DOMAIN-KEYWORD,meta
-  - DOMAIN-KEYWORD,facebook
-  - DOMAIN-KEYWORD,instagram
-  - DOMAIN-KEYWORD,threads
-  - DOMAIN-KEYWORD,fbcdn
-  - DOMAIN-KEYWORD,fbsbx
-  - DOMAIN-KEYWORD,oculus
-
-  # === 2. 隐形基础设施补丁 ===
-  - DOMAIN-SUFFIX,tfbnw.net
-  - DOMAIN-SUFFIX,internalfb.com
-  - DOMAIN-SUFFIX,fb.com
-  - DOMAIN-SUFFIX,fb.me
-  - DOMAIN-SUFFIX,ig.me
-  - DOMAIN-SUFFIX,cdninstagram.com
-
-  # === 3. Meta AI & Llama 专用 ===
   - DOMAIN-SUFFIX,meta.ai
-  - DOMAIN-SUFFIX,llama.com
-  - DOMAIN-SUFFIX,llama-api.com
-  - DOMAIN-SUFFIX,llama.meta.com
-  - DOMAIN-SUFFIX,auth.meta.com
-  - DOMAIN-SUFFIX,accountscenter.meta.com
-
-  # === 4. Threads 专用域名 ===
   - DOMAIN-SUFFIX,threads.com
-  - DOMAIN-SUFFIX,threads.net
-  - DOMAIN-SUFFIX,barcelona.net
+  - DOMAIN-SUFFIX,tfbnw.net
 
-  # === 5. API 与 资源 ===
-  - DOMAIN-SUFFIX,graph.meta.com
-  - DOMAIN-SUFFIX,edge-chat.meta.ai
-  - DOMAIN,api.meta.ai
-  - DOMAIN,imagine.static.meta.ai
