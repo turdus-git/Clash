@@ -269,19 +269,38 @@ payload:
   # 【短视频与影音】—— 包含抖音及主流视频
   # ==========================================================
   # --- 抖音 ---
+# --- 抖音核心 (你已有的部分) ---
   - DOMAIN,lf3-static.bytednsdoc.com
   - DOMAIN,v5-dy-o-abtest.zjcdn.com
   - DOMAIN-SUFFIX,amemv.com
+  - DOMAIN-SUFFIX,douyin.com
   - DOMAIN-SUFFIX,douyincdn.com
   - DOMAIN-SUFFIX,douyinpic.com
   - DOMAIN-SUFFIX,douyinstatic.com
   - DOMAIN-SUFFIX,douyinvod.com
   - DOMAIN-SUFFIX,idouyinvod.com
+  
+  # --- 西瓜视频与今日头条视频 (由于同属字节跳动，资源经常共用) ---
   - DOMAIN-SUFFIX,ixigua.com
   - DOMAIN-SUFFIX,ixiguavideo.com
-  - DOMAIN-SUFFIX,pstatp.com
-  - DOMAIN-SUFFIX,snssdk.com
   - DOMAIN-SUFFIX,toutiao.com
+  - DOMAIN-SUFFIX,pstatp.com      # 非常关键：头条/抖音的静态图片、封面库
+  - DOMAIN-SUFFIX,snssdk.com      # 非常关键：字节跳动全系 App 的后端接口
+
+  # --- 【重点补充】解决“视频播不出来”的关键域名 ---
+  - DOMAIN-SUFFIX,bytegecko.com   # 字节跳动数据上报
+  - DOMAIN-SUFFIX,byteimg.com     # 字节跳动图片库
+  - DOMAIN-SUFFIX,bytedance.com   # 字节基础主域名
+  - DOMAIN-SUFFIX,bytednsdoc.com  # 字节 DNS 解析服务
+  - DOMAIN-SUFFIX,byteoversea.com # 字节海外/跨境资源交叉引用的国内部分
+  - DOMAIN-SUFFIX,volccdn.com     # 火山引擎 CDN (抖音视频流现在大量跑在火山引擎上)
+  - DOMAIN-SUFFIX,zijieapi.com    # 字节跳动通用 API
+  - DOMAIN-SUFFIX,zjcdn.com       # 字节跳动 CDN 加速
+  - DOMAIN-SUFFIX,bytegoose.com   # 字节跳动流量调度
+  
+  # --- 常见第三方 CDN (如果你的规则文件还没加，抖音会因为找不到视频碎片而报错) ---
+  - DOMAIN-SUFFIX,qhres.com       # 360 提供的部分加速资源
+  - DOMAIN-SUFFIX,qhimg.com
   
   # --- 哔哩哔哩 (Bilibili) ---
   - DOMAIN-SUFFIX,bilibili.com
